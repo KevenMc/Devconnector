@@ -1,17 +1,10 @@
 const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
-  name: {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-    },
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-
   company: {
     type: String,
   },
@@ -57,7 +50,7 @@ const ProfileSchema = new mongoose.Schema({
       },
       current: {
         type: Boolean,
-        defualt: false,
+        default: false,
       },
       description: {
         type: String,
@@ -87,7 +80,7 @@ const ProfileSchema = new mongoose.Schema({
       },
       current: {
         type: Boolean,
-        defualt: false,
+        default: false,
       },
       description: {
         type: String,
@@ -111,10 +104,14 @@ const ProfileSchema = new mongoose.Schema({
       type: String,
     },
   },
+  public:{
+    type: Boolean,
+    default: true,
+  },
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = Profile = mongoose.model("Profile", ProfileSchema);
+module.exports = mongoose.model("profile", ProfileSchema);
