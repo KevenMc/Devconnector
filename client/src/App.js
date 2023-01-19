@@ -4,6 +4,8 @@ import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/layout/auth/Register";
 import Login from "./components/layout/auth/Login";
+import Alert from "./components/layout/Alert";
+
 import "./App.css";
 
 //Redux
@@ -12,15 +14,19 @@ import store from "./store";
 
 const App = () => {
   return (
-    <Provider store = {store}>
+    <Provider store={store}>
       <Router>
         <Fragment>
           <Navbar />
-          <Routes>
-            <Route exact path="/" element={<Landing />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/login" element={<Login />} />
-          </Routes>
+
+          <section className="container">
+            <Alert />
+            <Routes>
+              <Route exact path="/" element={<Landing />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/login" element={<Login />} />
+            </Routes>
+          </section>
         </Fragment>
       </Router>
     </Provider>
