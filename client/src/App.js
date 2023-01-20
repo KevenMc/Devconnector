@@ -5,31 +5,48 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/layout/auth/Register";
 import Login from "./components/layout/auth/Login";
 import Alert from "./components/layout/Alert";
+// import store from "./store";
+import {  useAuthCheck } from "./actions/auth";
+
 
 import "./App.css";
 
 //Redux
-import {Provider} from 'react-redux';
-import store from "./store";
+
+import setAuthToken from "./utils/setAuthToken";
+
+if (localStorage.token) {
+  console.log("USER LOADED PAGE");
+  setAuthToken(localStorage.token);
+}
+
+/////
+
+//////
+
 
 const App = () => {
-  return (
-    <Provider store={store}>
-      <Router>
-        <Fragment>
-          <Navbar />
+  useAuthCheck();
 
-          <section className="container">
-            <Alert />
-            <Routes>
-              <Route exact path="/" element={<Landing />} />
-              <Route exact path="/register" element={<Register />} />
-              <Route exact path="/login" element={<Login />} />
-            </Routes>
-          </section>
-        </Fragment>
-      </Router>
-    </Provider>
+  return (
+    <Router>
+      <Fragment>
+        <Navbar />
+
+        <Routes>
+          <Route exact path="/" element={<Landing />} />
+        </Routes>
+
+        <section className="container">
+          <Alert />
+          <Routes>
+            <Route exact path="/" element={<Landing />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/login" element={<Login />} />
+          </Routes>
+        </section>
+      </Fragment>
+    </Router>
   );
 };
 

@@ -30,7 +30,6 @@ router.post(
       });
 
       const post = await newPost.save();
-      console.log(post);
       res.json(post);
     } catch (err) {
       console.log(err);
@@ -191,7 +190,6 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     //pull out comment
-    console.log("^^^^^^^^^^^^^^^^^")
     const comment = post.comments.find(
       (comment) => comment.id === req.params.comment_id
     );
