@@ -5,46 +5,46 @@ import store from "../store";
 import { useEffect } from "react";
 import { setAlert } from "./alert";
 import {
+  TOKEN,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
   USER_UNLOADED,
   AUTH_ERROR,
   USER_UNLOADING,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 //Load user
 
-export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+// export const loadUser = () => async (dispatch) => {
+//   if (localStorage.token) {
+//     setAuthToken(localStorage.token);
+//   }
 
-  try {
-    const res = await axios.get("/api/auth");
+//   try {
+//  //   const res = await axios.get("/api/auth");
+// const res = {data:'e'}
+//     dispatch({ type: USER_LOADED, payload: res.data });
+//   } catch (err) {
+//         console.log(err);
 
-    dispatch({ type: USER_LOADED, payload: res.data });
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
-  }
-};
+//     dispatch({
+//       type: AUTH_ERROR,
+//     });
+//   }
+// };
 
 //Check for user on each click
 
-export function useAuthCheck() {
+export const useAuthCheck = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    document.addEventListener("click", handleClick);
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, []);
 
   const handleClick = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem(TOKEN);
 
     if (token) {
       dispatch({ type: USER_LOADED });
@@ -56,7 +56,13 @@ export function useAuthCheck() {
       dispatch({ type: USER_UNLOADED });
     }
   };
-}
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+  }, []);
+
+
+};
 
 ///Register user
 export const register =
@@ -88,3 +94,42 @@ export const register =
       });
     }
   };
+
+
+  ///Login user
+export const login =
+  ( email, password ) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        "content-type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({ email, password });
+    try {
+      const res = await axios.post("/api/auth", body, config);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => {
+          dispatch(setAlert(error.msg, "danger"));
+        });
+      }
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+    }
+  };
+
+  //Logout /clear profile
+
+  export const logout = () => dispatch => {
+    dispatch({type: LOGOUT})
+  }

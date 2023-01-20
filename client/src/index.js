@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import App from "./App";
 import store from "./store";
-import { loadUser } from "./actions/auth";
+// import { loadUser } from "./actions/auth";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -12,7 +12,3 @@ root.render(
    <App/>
   </Provider>
 );
-
-//   useEffect(() => {
-//     store.dispatch(loadUser());
-//   }, []);
