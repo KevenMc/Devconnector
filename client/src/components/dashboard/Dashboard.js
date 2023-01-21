@@ -1,27 +1,17 @@
 import PropTypes from 'prop-types'
-import React, {useEffect} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { getCurrentProfile } from '../../actions/profile'
 
-import { useAuthCheck, loadUser } from "../../actions/auth";
+import {  loadUser } from "../../actions/auth";
 
-import { TOKEN } from '../../actions/types';
-import setAuthToken from '../../utils/setAuthToken';
 
-const Dashboard = ({ getCurrentProfile, loadUser, auth, profile}) => {
-    // setAuthToken(localStorage[TOKEN]);
+const Dashboard = ({auth, profile}) => {
 
-  // useEffect(() => {
-  //   loadUser();
-  //   getCurrentProfile();
-  // },[]);
-
-  return <div>Dashboard</div>
+  return <div>{profile}</div>
 }
 
 Dashboard.propTypes = {
-  loadUser: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 }
