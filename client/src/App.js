@@ -7,7 +7,9 @@ import Login from "./components/layout/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoutes from "./components/routing/PrivateRoutes";
-import { HOME, LOGIN, REGISTER, DASHBOARD} from "./components/routing/paths";
+import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS} from "./components/routing/paths";
+
+import { TOKEN } from "./actions/types";
 // import store from "./store";
 import { useAuthCheck, loadUser } from "./actions/auth";
 
@@ -17,15 +19,16 @@ import "./App.css";
 
 import setAuthToken from "./utils/setAuthToken";
 
-if (localStorage.token) {
-  console.log("USER LOADED PAGE");
-  setAuthToken(localStorage.token);
-}
+
 //////
 
 const App = () => {
   useAuthCheck();
   loadUser();
+
+if (localStorage[TOKEN]) {
+  setAuthToken(localStorage[TOKEN]);
+}
 
   return (
     <Router>
@@ -34,7 +37,7 @@ const App = () => {
 
         <Routes>
           <Route exact path={HOME} element={<Landing />} />
-          <Route path="*" element/>
+          <Route path="*" element />
         </Routes>
 
         <section className="container">
@@ -42,10 +45,14 @@ const App = () => {
           <Routes>
             <Route exact path={REGISTER} element={<Register />} />
             <Route exact path={LOGIN} element={<Login />} />
-            <Route element={<PrivateRoutes/>}>
-              <Route exact path={DASHBOARD} element={<Dashboard/>}/>
+            
+            {/* Logged in users only */}
+            <Route element={<PrivateRoutes />}>
+              <Route exact path={DASHBOARD} element={<Dashboard />} />
+              <Route exact path={PROFILES} element={<Dashboard />} />
+              <Route exact path={POSTS} element={<Dashboard />} />
             </Route>
-            <Route/>
+            <Route />
           </Routes>
         </section>
       </Fragment>
