@@ -1,5 +1,6 @@
 import {
   TOKEN,
+  INIT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
@@ -20,10 +21,32 @@ const initialState = {
   lastState: "",
 };
 
-export default function (state = initialState, action) {
+const Auth = (state = initialState, action) => {
   const { type, payload } = action;
   const lastState = state.currentState;
+
   switch (type) {
+    case INIT:
+      if (state.token) {
+        return {
+          ...state,
+          isAuthenticated: true,
+          loading: false,
+          user: payload,
+          currentState: type,
+          lastState: lastState,
+        };
+      } else {
+        return {
+          ...state,
+          isAuthenticated: false,
+          loading: false,
+          user: payload,
+          currentState: type,
+          lastState: lastState,
+        };
+      }
+
     case USER_LOADED:
       return {
         ...state,
@@ -73,7 +96,8 @@ export default function (state = initialState, action) {
       };
 
     default:
-        console.log("SOME OTHER STATE")
       return state;
   }
-}
+};
+
+export default Auth;

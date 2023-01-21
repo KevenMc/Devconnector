@@ -20,23 +20,28 @@ import setAuthToken from "../utils/setAuthToken";
 
 //Load user
 
-// export const loadUser = () => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+      try {
+        //   const res = await axios.get("/api/auth");
+        const res = { data: "e" };
+        dispatch({ type: USER_LOADED, payload: res.data });
+      } catch (err) {
+        console.log(err);
 
-//   try {
-//  //   const res = await axios.get("/api/auth");
-// const res = {data:'e'}
-//     dispatch({ type: USER_LOADED, payload: res.data });
-//   } catch (err) {
-//         console.log(err);
+        dispatch({
+          type: AUTH_ERROR,
+        });
+      }
+  }
+  else{
+    console.log("LOAD WITH NO USER")
+    dispatch({ type: USER_UNLOADED });
+  }
 
-//     dispatch({
-//       type: AUTH_ERROR,
-//     });
-//   }
-// };
+
+};
 
 //Check for user on each click
 
