@@ -1,16 +1,13 @@
 import axios from 'axios';
+import { dispatch } from 'react';
+import { USER_UNLOADED } from '../actions/types';
 
 const setAuthToken = token => {
-    console.log("ATTEMPTING TO SET HEADERS")
+    console.log("SET AUTH TOKEN : " + Date.now())
     if(token) {
         axios.defaults.headers.common['x-auth-token'] = token;
-        console.log("AUTH TOKEN SET")
-        console.log(token)
-        console.log(axios.defaults.headers.common["x-auth-token"]);
     } else{
         delete axios.defaults.headers.common["x-auth-token"]; 
-        console.log("NO TOKEN FOUND");
-
     }
 }
 

@@ -1,8 +1,4 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import store from "../store";
-
-import { useEffect } from "react";
 import { setAlert } from "./alert";
 import {
   TOKEN,
@@ -11,7 +7,6 @@ import {
   USER_LOADED,
   USER_UNLOADED,
   AUTH_ERROR,
-  USER_UNLOADING,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -21,52 +16,23 @@ import setAuthToken from "../utils/setAuthToken";
 //Load user
 
 export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-      try {
-        //   const res = await axios.get("/api/auth");
-        const res = { data: "e" };
-        dispatch({ type: USER_LOADED, payload: res.data });
-      } catch (err) {
-        console.log(err);
+  if (localStorage[TOKEN]) {
+    setAuthToken(localStorage[TOKEN]);
+    try {
+      const res = await axios.get("/api/auth");
+      dispatch({ type: USER_LOADED, payload: res.data });
+      return true;
+    } catch (err) {
+      console.log(err);
 
-        dispatch({
-          type: AUTH_ERROR,
-        });
-      }
-  }
-  else{
-    console.log("LOAD WITH NO USER")
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  } else {
     dispatch({ type: USER_UNLOADED });
   }
-
-
-};
-
-//Check for user on each click
-
-export const useAuthCheck = () => {
-  const dispatch = useDispatch();
-
-  const handleClick = () => {
-    const token = localStorage.getItem(TOKEN);
-
-    if (token) {
-      dispatch({ type: USER_LOADED });
-    } else {
-      if (store.getState().auth.currentState === USER_LOADED) {
-        dispatch({ type: USER_UNLOADING });
-        window.location.href = "/";
-      }
-      dispatch({ type: USER_UNLOADED });
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClick);
-  }, []);
-
-
+  return false;
 };
 
 ///Register user
@@ -100,41 +66,37 @@ export const register =
     }
   };
 
-
-  ///Login user
-export const login =
-  ( email, password ) =>
-  async (dispatch) => {
-    const config = {
-      headers: {
-        "content-type": "application/json",
-      },
-    };
-
-    const body = JSON.stringify({ email, password });
-    try {
-      const res = await axios.post("/api/auth", body, config);
-
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
-      });
-
-    } catch (err) {
-      const errors = err.response.data.errors;
-      if (errors) {
-        errors.forEach((error) => {
-          dispatch(setAlert(error.msg, "danger"));
-        });
-      }
-      dispatch({
-        type: LOGIN_FAIL,
-      });
-    }
+///Login user
+export const login = (email, password) => async (dispatch) => {
+  const config = {
+    headers: {
+      "content-type": "application/json",
+    },
   };
 
-  //Logout /clear profile
+  const body = JSON.stringify({ email, password });
+  try {
+    const res = await axios.post("/api/auth", body, config);
 
-  export const logout = () => dispatch => {
-    dispatch({type: LOGOUT})
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        dispatch(setAlert(error.msg, "danger"));
+      });
+    }
+    dispatch({
+      type: LOGIN_FAIL,
+    });
   }
+};
+
+//Logout /clear profile
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT });
+};

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
@@ -9,26 +9,10 @@ import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoutes from "./components/routing/PrivateRoutes";
 import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS} from "./components/routing/paths";
 
-import { TOKEN } from "./actions/types";
-// import store from "./store";
-import { useAuthCheck, loadUser } from "./actions/auth";
 
 import "./App.css";
 
-//Redux
-
-import setAuthToken from "./utils/setAuthToken";
-
-
-//////
-
 const App = () => {
-  useAuthCheck();
-  loadUser();
-
-if (localStorage[TOKEN]) {
-  setAuthToken(localStorage[TOKEN]);
-}
 
   return (
     <Router>
@@ -45,7 +29,7 @@ if (localStorage[TOKEN]) {
           <Routes>
             <Route exact path={REGISTER} element={<Register />} />
             <Route exact path={LOGIN} element={<Login />} />
-            
+
             {/* Logged in users only */}
             <Route element={<PrivateRoutes />}>
               <Route exact path={DASHBOARD} element={<Dashboard />} />
@@ -59,5 +43,6 @@ if (localStorage[TOKEN]) {
     </Router>
   );
 };
+
 
 export default App;
