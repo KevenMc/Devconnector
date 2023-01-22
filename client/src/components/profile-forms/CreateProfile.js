@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
+import { createProfile } from '../../actions/profile';
+import { useNavigate } from "react-router";
+import Alert from '../layout/Alert';
 
-const CreateProfile = props => {
+
+const CreateProfile = ({createProfile, history}) => {
     const [formData, setFormData] = useState({
       company: "",
       website: "",
@@ -36,7 +40,10 @@ const CreateProfile = props => {
    } = formData;
 
 const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
-
+const onSubmit = e =>{
+    e.preventDefault();
+    createProfile(formData, history);
+}
   return (
     <Fragment>
       <section className="container">
@@ -46,9 +53,9 @@ const onChange = e => setFormData({...formData, [e.target.name]: e.target.value}
           your profile stand out
         </p>
         <small>* = required field</small>
-        <form className="form">
+        <form className="form" onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
-            <select name="status" value={status} onChange={(e) => onChange(e)}>
+            <select id="status" name="status" value={status} onChange={(e) => onChange(e)}>
               <option value="0">* Select Professional Status</option>
               <option value="Developer">Developer</option>
               <option value="Junior Developer">Junior Developer</option>
@@ -99,7 +106,7 @@ const onChange = e => setFormData({...formData, [e.target.name]: e.target.value}
               City & state suggested (eg. Boston, MA)
             </small>
           </div>
-          <div className="form-group">
+          <div className="form-group" id="skills">
             <input
               type="text"
               placeholder="* Skills"
@@ -213,6 +220,20 @@ const onChange = e => setFormData({...formData, [e.target.name]: e.target.value}
     </Fragment>
   );
 }
-CreateProfile.propTypes = {}
 
-export default CreateProfile
+
+CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+};
+
+
+
+export const withRouter = (Component) => {
+  const Wrapper = (props) => {
+    const history = useNavigate();
+    return <Component history={history} {...props} />;
+  };
+  return Wrapper;
+};
+
+export default connect(null, { createProfile })(withRouter(CreateProfile));

@@ -12,6 +12,8 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
 } from "./types";
+
+import { API_AUTH } from "../components/routing/paths";
 import setAuthToken from "../utils/setAuthToken";
 
 //Load user
@@ -20,7 +22,7 @@ export const loadUser = () => async (dispatch) => {
   if (localStorage[TOKEN]) {
     setAuthToken(localStorage[TOKEN]);
     try {
-      const res = await axios.get("/api/auth");
+      const res = await axios.get(API_AUTH);
       dispatch({ type: USER_LOADED, payload: res.data });
       return true;
     } catch (err) {

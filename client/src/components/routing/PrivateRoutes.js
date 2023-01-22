@@ -10,7 +10,7 @@ import { useEffect } from "react";
 const PrivateRoutes = ({
   loadUser,
   getCurrentProfile,
-  auth: { isAuthenticated, loading },
+  auth: { isAuthenticated },
   ...rest
 }) => {
     useEffect(() => {
