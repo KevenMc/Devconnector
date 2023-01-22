@@ -6,8 +6,9 @@ import Register from "./components/layout/auth/Register";
 import Login from "./components/layout/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
+import CreateProfile from "./components/profile-forms/CreateProfile";
 import PrivateRoutes from "./components/routing/PrivateRoutes";
-import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS} from "./components/routing/paths";
+import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS, CREATE_PROFILE} from "./components/routing/paths";
 
 
 import "./App.css";
@@ -35,6 +36,7 @@ const App = () => {
               <Route exact path={DASHBOARD} element={<Dashboard />} />
               <Route exact path={PROFILES} element={<Dashboard />} />
               <Route exact path={POSTS} element={<Dashboard />} />
+              <Route exact path={CREATE_PROFILE} element={<CreateProfile />} />
             </Route>
             <Route />
           </Routes>

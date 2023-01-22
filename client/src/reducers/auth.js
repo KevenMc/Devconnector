@@ -9,6 +9,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  CLEAR_PROFILE,
 } from "../actions/types";
 
 const initialState = {
@@ -16,7 +17,6 @@ const initialState = {
   isAuthenticated: false,
   loading: true,
   user: null,
-  currentState: "START",
 };
 
 const Auth = (state = initialState, action) => {
@@ -30,7 +30,6 @@ const Auth = (state = initialState, action) => {
           isAuthenticated: true,
           loading: false,
           user: payload,
-          currentState: type,
         };
       } else {
         return {
@@ -38,7 +37,6 @@ const Auth = (state = initialState, action) => {
           isAuthenticated: false,
           loading: false,
           user: payload,
-          currentState: type,
         };
       }
 
@@ -48,7 +46,6 @@ const Auth = (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
         user: payload,
-        currentState: type,
       };
 
     case REGISTER_SUCCESS:
@@ -58,7 +55,6 @@ const Auth = (state = initialState, action) => {
         ...payload,
         isAuthenticated: true,
         loading: false,
-        currentState: type,
       };
 
     case REGISTER_FAIL:
@@ -72,7 +68,7 @@ const Auth = (state = initialState, action) => {
         token: null,
         isAuthenticated: false,
         loading: false,
-        currentState: type,
+        profile: null,
       };
 
     case LOGIN_SUCCESS:
@@ -82,8 +78,9 @@ const Auth = (state = initialState, action) => {
         ...payload,
         isAuthenticated: true,
         loading: false,
-        currentState: type,
       };
+
+
 
     default:
       return state;

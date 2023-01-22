@@ -1,9 +1,8 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
+import { GET_PROFILE, PROFILE_ERROR, TOKEN } from "./types";
 
-import { TOKEN } from "./types";
-
-import { GET_PROFILE, PROFILE_ERROR, USER_UNLOADED } from "./types";
+import { dispatch } from "react";
 
 //Get current user's profile
 
@@ -12,7 +11,6 @@ export const getCurrentProfile = () => async (dispatch) => {
   try {
     setAuthToken(localStorage[TOKEN]);
     const res = await axios.get("/api/profile/me");
-
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
