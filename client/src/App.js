@@ -19,7 +19,6 @@ const App = () => {
     <Router>
       <Fragment>
         <Navbar />
-
         <Routes>
           <Route exact path={HOME} element={<Landing />} />
           <Route path="*" element />
@@ -27,6 +26,7 @@ const App = () => {
 
         <section className="container">
           <Alert />
+          <div id="alert"></div>
           <Routes>
             <Route exact path={REGISTER} element={<Register />} />
             <Route exact path={LOGIN} element={<Login />} />

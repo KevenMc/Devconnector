@@ -4,8 +4,8 @@ import { v4 } from "uuid";
 export const setAlert =
   (msg, alertType, param, timeout = 2000) =>
   (dispatch) => {
-    //const id = v4();
-    const id = `${param}-danger`;
+    var id = "alert";
+    if(param) id = `${param}-danger`;
     dispatch({
       type: SET_ALERT,
       payload: { msg, alertType, param, id },

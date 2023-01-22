@@ -9,19 +9,29 @@ const Alert = ({ alerts }) => {
   if (alerts !== null && alerts.length > 0) {
   }
   alerts.forEach((alert) => {
-    if (!document.getElementById(alert.id)) {
-      const alertdiv = document.createElement("div");
-      alertdiv.setAttribute("class", `alert alert-${alert.alertType}`);
-      alertdiv.setAttribute("id", alert.id);
-      alertdiv.innerText = alert.msg;
+          const alertdiv = document.createElement("div");
+          console.log(alertdiv);
+          alertdiv.setAttribute("class", `alert alert-${alert.alertType}`);
+          alertdiv.setAttribute("id", alert.id);
+          alertdiv.innerText = alert.msg;
 
+    if(!alert.param) {
+      const addAlert = document.getElementById(alert.id);
+      if (addAlert) {
+        addAlert.after(alertdiv);
+
+        setTimeout(() => alertdiv.remove(), 4000);
+      }
+    }else if (!document.getElementById(alert.id)) {
       const addAlert = document.getElementById(alert.param);
+      console.log(addAlert)
       if (addAlert) {
         addAlert.after(alertdiv);
 
          setTimeout(() => alertdiv.remove(), 4000);
       }
     } 
+
   });
 };
 
