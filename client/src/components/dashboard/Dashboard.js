@@ -7,6 +7,8 @@ import { loadUser } from "../../actions/auth";
 import Spinner from "../layout/Spinner";
 import { CREATE_PROFILE } from "../routing/paths";
 
+import { DashboardActions } from "./DashboardActions";
+
 
 const Dashboard = ({
   loadUser,
@@ -28,7 +30,9 @@ const Dashboard = ({
         <i className="fas fa-user">Welcome {user && user.name}</i>
       </p>
       {profile !== null ? (
-        <Fragment>Has</Fragment>
+        <Fragment>
+          <DashboardActions/>
+        </Fragment>
       ) : (
         <Fragment>
           <p>You have not yet set up your profile</p>

@@ -73,7 +73,13 @@ router.post(
     if (public) profileFields.public = public;
 
     if (skills) {
-      profileFields.skills = skills.split(",").map((skill) => skill.trim());
+      if (typeof skills === "string") {
+        profileFields.skills = skills.split(",").map((skill) => skill.trim());
+      } else {
+        {
+          profileFields.skills = skills;
+        }
+      }
     }
 
     // Build social object

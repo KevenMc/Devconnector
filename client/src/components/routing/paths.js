@@ -4,6 +4,10 @@ export const LOGIN = "/login";
 export const DASHBOARD = "/dashboard";
 export const PROFILES = "/profiles";
 export const CREATE_PROFILE = "/create-profile";
+export const EDIT_PROFILE = "/edit-profile";
+export const ADD_EXPERIENCE = "/add-experience";
+export const ADD_EDUCATION = "/add-education";
+
 export const POSTS = "/posts";
 
 //API ROUTS

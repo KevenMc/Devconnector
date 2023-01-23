@@ -7,8 +7,9 @@ import Login from "./components/layout/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/profile-forms/CreateProfile";
+import EditProfile from "./components/profile-forms/EditProfile";
 import PrivateRoutes from "./components/routing/PrivateRoutes";
-import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS, CREATE_PROFILE} from "./components/routing/paths";
+import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS, CREATE_PROFILE, EDIT_PROFILE} from "./components/routing/paths";
 
 
 import "./App.css";
@@ -37,8 +38,8 @@ const App = () => {
               <Route exact path={PROFILES} element={<Dashboard />} />
               <Route exact path={POSTS} element={<Dashboard />} />
               <Route exact path={CREATE_PROFILE} element={<CreateProfile />} />
+              <Route exact path={EDIT_PROFILE} element={<EditProfile />} />
             </Route>
-            <Route />
           </Routes>
         </section>
       </Fragment>
