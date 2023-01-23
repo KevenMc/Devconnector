@@ -9,7 +9,20 @@ import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
 import PrivateRoutes from "./components/routing/PrivateRoutes";
-import { HOME, LOGIN, REGISTER, DASHBOARD, PROFILES, POSTS, CREATE_PROFILE, EDIT_PROFILE} from "./components/routing/paths";
+import AddExperience from "./components/profile-forms/AddExperience";
+import AddEducation from "./components/profile-forms/AddEducation";
+import {
+  HOME,
+  LOGIN,
+  REGISTER,
+  DASHBOARD,
+  PROFILES,
+  POSTS,
+  CREATE_PROFILE,
+  EDIT_PROFILE,
+  ADD_EXPERIENCE,
+  ADD_EDUCATION
+} from "./components/routing/paths";
 
 
 import "./App.css";
@@ -39,6 +52,8 @@ const App = () => {
               <Route exact path={POSTS} element={<Dashboard />} />
               <Route exact path={CREATE_PROFILE} element={<CreateProfile />} />
               <Route exact path={EDIT_PROFILE} element={<EditProfile />} />
+              <Route exact path={ADD_EXPERIENCE} element={<AddExperience />} />
+              <Route exact path={ADD_EDUCATION} element={<AddEducation />} />
             </Route>
           </Routes>
         </section>
