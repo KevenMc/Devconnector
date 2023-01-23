@@ -1,6 +1,13 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
-import { GET_PROFILE, UPDATE_PROFILE, PROFILE_ERROR, TOKEN } from "./types";
+import {
+  GET_PROFILE,
+  UPDATE_PROFILE,
+  PROFILE_ERROR,
+  TOKEN,
+  CLEAR_PROFILE,
+  DELETE_ACCOUNT,
+} from "./types";
 import {
   DASHBOARD,
   API_PROFILE_ME,
@@ -86,8 +93,6 @@ export const addExperience = (formData, history) => async (dispatch) => {
     };
 
     const res = await axios.put(`${API_PROFILE}/experience`, formData, config);
-console.log("EXPERIENCE RES")
-console.log(res)
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
@@ -97,8 +102,6 @@ console.log(res)
 
     history(DASHBOARD);
   } catch (err) {
-    console.log(err);
-
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach((error) => {
@@ -136,8 +139,6 @@ export const addEducation = (formData, history) => async (dispatch) => {
 
     history(DASHBOARD);
   } catch (err) {
-    console.log(err);
-
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach((error) => {
@@ -152,5 +153,96 @@ export const addEducation = (formData, history) => async (dispatch) => {
         status: err.response.status,
       },
     });
+  }
+};
+
+//Delete experience
+export const deleteExperience = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`${API_PROFILE}/experience/${id}`);
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Experience removed", "danger"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        dispatch(setAlert(error.msg, "danger", error.param));
+      });
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+//Delete Education
+export const deleteEducation = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`${API_PROFILE}/education/${id}`);
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Education removed", "danger"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        dispatch(setAlert(error.msg, "danger", error.param));
+      });
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+//Delete accout and profile
+export const deleteAccount = () => async dispatch => {
+  if (
+    window.confirm(
+      "Are yiou sure you want to delet you acccount? this cannot be undone"
+    )
+  ) {
+    try {
+      const res = await axios.delete(`${API_PROFILE}`);
+      dispatch({
+        type: CLEAR_PROFILE,
+      });
+      dispatch({
+        type: DELETE_ACCOUNT,
+      });
+      dispatch(setAlert("Account has been deleted"));
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => {
+          dispatch(setAlert(error.msg, "danger", error.param));
+        });
+      }
+
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+        },
+      });
+    }
   }
 };

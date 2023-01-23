@@ -5,14 +5,17 @@ import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/profile";
 import { loadUser } from "../../actions/auth";
 import Spinner from "../layout/Spinner";
+import Experience from "./Experience";
+import Education from "./Education";
 import { CREATE_PROFILE } from "../routing/paths";
+import { deleteAccount } from "../../actions/profile";
 
 import { DashboardActions } from "./DashboardActions";
-
 
 const Dashboard = ({
   loadUser,
   getCurrentProfile,
+  deleteAccount,
   auth: { user },
   profile: { profile, loading },
 }) => {
@@ -31,12 +34,21 @@ const Dashboard = ({
       </p>
       {profile !== null ? (
         <Fragment>
-          <DashboardActions/>
+          <DashboardActions />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
+          <div className="my-2">
+            <button className="btn btn-danger" onClick={() => deleteAccount()}>
+              <i className="fas fa-user-minus">Delete My Accout</i>
+            </button>
+          </div>
         </Fragment>
       ) : (
         <Fragment>
           <p>You have not yet set up your profile</p>
-          <Link to={CREATE_PROFILE} className='btn btn-primary my-1'>Create Profile</Link>
+          <Link to={CREATE_PROFILE} className="btn btn-primary my-1">
+            Create Profile
+          </Link>
         </Fragment>
       )}
     </Fragment>
@@ -55,6 +67,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { loadUser, getCurrentProfile })(
+export default connect(mapStateToProps, { loadUser, getCurrentProfile , deleteAccount})(
   Dashboard
 );

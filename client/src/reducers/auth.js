@@ -9,7 +9,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_PROFILE,
+  DELETE_ACCOUNT,
 } from "../actions/types";
 
 const initialState = {
@@ -62,6 +62,7 @@ const Auth = (state = initialState, action) => {
     case LOGIN_FAIL:
     case USER_UNLOADED:
     case LOGOUT:
+    case DELETE_ACCOUNT:
       localStorage.removeItem(TOKEN);
       return {
         ...state,
@@ -79,8 +80,6 @@ const Auth = (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
-
-
 
     default:
       return state;
